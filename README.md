@@ -8,4 +8,5 @@
  </ul>
 </h3>
 
-<img src="mockup/Login_Frame.png" width="350">
+<img src="mockup/AppFlow.jpg" width="500">
+<img src="mockup/AppFlow2.jpg" width="500">
