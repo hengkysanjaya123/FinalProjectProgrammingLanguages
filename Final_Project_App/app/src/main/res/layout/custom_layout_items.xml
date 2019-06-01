@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:padding="@dimen/padding_wide_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/ivLogo"
+            tools:src="@color/colorPrimaryDark"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+
+    <TextView
+            android:textStyle="bold"
+            android:id="@+id/tvTitle"
+            android:textSize="22sp"
+            android:layout_marginRight="@dimen/padding_wide_8"
+            android:layout_marginLeft="@dimen/padding_wide_8"
+            tools:text="Hot Cappucino"
+            android:fontFamily="@font/roboto"
+            android:layout_toRightOf="@id/ivLogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:id="@+id/tvPrice"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:padding="@dimen/padding_wide_8"
+            tools:text="IDR 25K"
+            android:fontFamily="@font/roboto"
+            android:layout_below="@id/tvTitle"
+            android:layout_toRightOf="@id/ivLogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout
+            android:padding="@dimen/padding_wide_8"
+            android:layout_toRightOf="@id/ivLogo"
+            android:layout_below="@id/tvPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:background="@drawable/minus"
+                android:id="@+id/btnDecrease"
+                android:layout_width="35dp"
+                android:layout_height="35dp"/>
+        <TextView
+
+                android:id="@+id/tvQty"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:padding="@dimen/padding_wide_8"
+                tools:text="0"
+                android:fontFamily="@font/roboto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        <Button
+                android:background="@drawable/plus"
+                android:id="@+id/btnIncrease"
+                android:layout_width="35dp"
+                android:layout_height="35dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
