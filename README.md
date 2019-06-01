@@ -8,5 +8,8 @@
  </ul>
 </h3>
 
+<h4>Customer</h4>
 <img src="mockup/AppFlow.jpg" width="500">
+
+<h4>Seller</h4>
 <img src="mockup/AppFlow2.jpg" width="500">
