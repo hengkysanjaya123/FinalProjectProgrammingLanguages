@@ -22,11 +22,13 @@ public class LoginController {
     private CustomerService customerService;
 
 
+    // function to do login
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public LoginResult doLogin(@RequestBody Login login) {
         List<Seller> sellerList = (List<Seller>) sellerService.getAll();
         List<Customer> customerList = (List<Customer>) customerService.getAll();
 
+        // check the seller data
         for (int i = 0; i < sellerList.size(); i++) {
             Seller cur = sellerList.get(i);
             if (cur.getEmail().equals(login.email) && cur.getPassword().equals(login.password)) {
@@ -34,6 +36,7 @@ public class LoginController {
             }
         }
 
+        // check the customer data
         for (int i = 0; i < customerList.size(); i++) {
             Customer cur = customerList.get(i);
             if (cur.getEmail().equals(login.email) && cur.getPassword().equals(login.password)) {
@@ -41,6 +44,7 @@ public class LoginController {
             }
         }
 
+        // not found
         return null;
     }
 }

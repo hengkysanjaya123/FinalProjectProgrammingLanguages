@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 public class OrderService extends CRUDOperation {
+    // initialize order data
     private List<Order> orderList = new ArrayList<>(Arrays.asList(
             new Order(1, LocalDate.of(2019, 5, 31), 1, new ArrayList<>(Arrays.asList(
                     new OrderDetail(1, 1, 1, 10),
@@ -24,8 +25,10 @@ public class OrderService extends CRUDOperation {
     @Autowired
     private OrderDetailService orderDetailService;
 
+    // function to add order data
     @Override
     public void add(IModel m) {
+        // get order id
         int id = 1;
         Order maxOrder = orderList.stream().max(Comparator.comparing(Order::getId)).get();
         if (maxOrder != null) {
@@ -43,6 +46,7 @@ public class OrderService extends CRUDOperation {
         super.add(m);
     }
 
+    // function to delete order
     @Override
     public void delete(int id) {
         orderList.removeIf(t -> t.getId() == id);
@@ -50,6 +54,7 @@ public class OrderService extends CRUDOperation {
         super.delete(id);
     }
 
+    // function to update order
     @Override
     public void update(int id, IModel m) {
         for (int i = 0; i < orderList.size(); i++) {
@@ -61,11 +66,13 @@ public class OrderService extends CRUDOperation {
         }
     }
 
+    // function to get order by given order id
     @Override
     public IModel get(int id) {
         return orderList.stream().filter(t -> t.getId() == id).findFirst().get();
     }
 
+    // function to get all order data
     @Override
     public List<? extends IModel> getAll() {
         return orderList;

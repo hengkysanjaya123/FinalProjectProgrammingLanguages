@@ -4,7 +4,9 @@ import model.IModel;
 
 import java.util.List;
 
+// as a blueprint or outline to all service classes
 public abstract class CRUDOperation {
+
     public void add(IModel m) {
         System.out.println("Data added successfully");
     }
