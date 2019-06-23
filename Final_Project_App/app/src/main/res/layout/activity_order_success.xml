@@ -7,21 +7,43 @@
         android:layout_height="match_parent"
         tools:context=".OrderSuccessActivity">
 
+    <TextView
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:textSize="19sp"
+            android:layout_marginBottom="25dp"
+            android:text="SCAN TO CONFIRM / TAKE ORDER"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"/>
 
     <ImageView
-            android:layout_centerInParent="true"
-            android:layout_width="124dp"
-            android:layout_height="133dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/textView8"
+            android:layout_width="268dp"
+            android:layout_height="270dp"
             app:srcCompat="@drawable/check2"
             android:id="@+id/imageView3"
     />
+
     <TextView
             android:textSize="19sp"
-            android:layout_marginTop="@dimen/padding_wide_8"
+            android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/imageView3"
-            android:text="Payment Successful"
+            android:text="ORDER ID : "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView8"/>
+            android:id="@+id/textView9"/>
+
+    <TextView
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:layout_marginTop="@dimen/padding_wide_16"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/textView9"
+            tools:text="TOTAL Rp. 20.000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView10"/>
 </RelativeLayout>

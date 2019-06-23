@@ -32,6 +32,9 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var adapter: ItemAdapter
+    lateinit var mBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+
     val coffeeList = ArrayList<Coffee>(
         Arrays.asList(
 //            Coffee(
@@ -148,14 +151,18 @@ class MainActivity : AppCompatActivity() {
         tvTotalPrice.text = "Rp " + formatter.format(total)
     }
 
+    fun notifyChanges() {
+        adapter.notifyDataSetChanged()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var mBottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = ItemAdapter(this, coffeeList)
+        adapter = ItemAdapter(this, coffeeList, orderList)
         recyclerView.adapter = adapter
 
         try {
@@ -167,6 +174,51 @@ class MainActivity : AppCompatActivity() {
         }
         displayOrder()
 
+        loadCoffee(adapter)
+
+        btnPay.setOnClickListener {
+            val objOrder = JSONObject()
+            objOrder.put("id", 1)
+            objOrder.put("orderDate", "3900-09-10")
+            objOrder.put("customerId", 1)
+
+            val arrayDetail = JSONArray()
+            var n = 1
+            for (i in orderList) {
+                val objDetail = JSONObject()
+                objDetail.put("id", n)
+                objDetail.put("orderId", 1)
+                objDetail.put("productId", i.coffeeId)
+                objDetail.put("qty", i.qty)
+                n += 1
+                arrayDetail.put(objDetail)
+            }
+            objOrder.put("orderDetails", arrayDetail)
+
+            doAsync("${core.BASE_URL}/orders", "POST", objOrder.toString(), "") {
+
+                try {
+                    val formatter = NumberFormat.getInstance(Locale.ENGLISH)
+                    val total = orderList.sumBy { t ->
+                        val a = coffeeList.filter { a -> a.id == t.coffeeId }.firstOrNull()
+                        t.qty * (if (a == null) 0 else a!!.price)
+                    }
+                    val price = "Rp. ${formatter.format(total)}"
+                    val intt = Intent(this, OrderSuccessActivity::class.java)
+                    intt.putExtra("orderList", orderList)
+                    intt.putExtra("totalPrice", price)
+
+
+                    startActivityForResult(intt, 1)
+                } catch (ex: Exception) {
+                    Log.d("test", ex.toString())
+                }
+//                core.message(this, it)
+            }
+        }
+    }
+
+    private fun loadCoffee(adapter: ItemAdapter) {
         doAsync("${core.BASE_URL}/coffees", "GET", "", "", pbLoading) {
             Log.d("test", it.toString())
 
@@ -191,40 +243,23 @@ class MainActivity : AppCompatActivity() {
                     .fit()
                     .into(imageView)
 
-                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                imageView.scaleType = ImageView.ScaleType.FIT_CENTER
 
                 coffeeList.add(Coffee(id, title, desc, url, price))
             }
 
             adapter.notifyDataSetChanged()
         }
+    }
 
-        btnPay.setOnClickListener {
-            val objOrder = JSONObject()
-            objOrder.put("id", 1)
-            objOrder.put("orderDate", "3900-09-10")
-            objOrder.put("customerId", 1)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            orderList.clear()
+            displayOrder()
 
-            val arrayDetail = JSONArray()
-            var n = 1
-            for (i in orderList) {
-                val objDetail = JSONObject()
-                objDetail.put("id", n)
-                objDetail.put("orderId", 1)
-                objDetail.put("productId", i.coffeeId)
-                objDetail.put("qty", i.qty)
-                n += 1
-                arrayDetail.put(objDetail)
-            }
-            objOrder.put("orderDetails", arrayDetail)
-
-            doAsync("${core.BASE_URL}/orders", "POST", objOrder.toString(), "") {
-                orderList.clear()
-                displayOrder()
-                val intt = Intent(this, OrderSuccessActivity::class.java)
-                startActivity(intt)
-//                core.message(this, it)
-            }
+            loadCoffee(adapter)
+            mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
@@ -261,13 +296,11 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    class ItemAdapter(var mContext: Context, var coffeeList: ArrayList<Coffee>) :
+    class ItemAdapter(var mContext: Context, var coffeeList: ArrayList<Coffee>, var orderList: ArrayList<OrderDetail>) :
         RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
-
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
             val view = LayoutInflater.from(mContext).inflate(R.layout.custom_layout_items, p0, false)
-
-            return ViewHolder(view)
+            return ViewHolder(view);
         }
 
         override fun getItemCount(): Int {
@@ -276,9 +309,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
             val coffee = coffeeList.get(p1)
-
             var counter = 0;
-
 
             val formatter = NumberFormat.getNumberInstance(Locale.ENGLISH)
 
@@ -290,7 +321,7 @@ class MainActivity : AppCompatActivity() {
                 .fit()
                 .into(holder.imageView)
 
-            holder.tvQty.text = "0"
+            holder.tvQty.text = orderList.filter { t -> t.coffeeId == coffee.id }.firstOrNull()?.qty?.toString() ?: "0"
             holder.imageView.setOnClickListener {
                 val intt = Intent(mContext, ScrollingActivity::class.java)
                 intt.putExtra("objCoffee", coffee)
@@ -302,15 +333,17 @@ class MainActivity : AppCompatActivity() {
                 holder.tvQty.text = counter.toString()
                 (mContext as MainActivity).addOrder(coffee.id, 1)
                 (mContext as MainActivity).displayOrder()
+                (mContext as MainActivity).notifyChanges()
             }
 
             holder.btnDecrease.setOnClickListener {
-                if (counter > 0) {
-                    counter--
-                    holder.tvQty.text = counter.toString()
-                    (mContext as MainActivity).removeOrder(coffee.id)
-                    (mContext as MainActivity).displayOrder()
-                }
+                //                if (counter > 0) {
+                counter--
+                holder.tvQty.text = counter.toString()
+                (mContext as MainActivity).removeOrder(coffee.id)
+                (mContext as MainActivity).displayOrder()
+                (mContext as MainActivity).notifyChanges()
+//                }
             }
         }
 
