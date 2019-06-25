@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1cff363f-610f-4072-8c7f-d9ac66208f0b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Final_Project_App/app/src/main/java/com/example/myapplication/Helper/core.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../Final_Project_App/app/src/main/java/com/example/myapplication/Helper/core.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Resource/~$oject Report.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Resource/Project Report.pdf" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -55,8 +53,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/service/CustomerService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="37" column="60" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
+            <state relative-caret-position="136">
+              <caret line="29" column="60" lean-forward="true" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -487,12 +485,12 @@
       <workItem from="1561312003658" duration="121000" />
       <workItem from="1561437676893" duration="1163000" />
       <workItem from="1561461232522" duration="596000" />
-      <workItem from="1561467861433" duration="1392000" />
+      <workItem from="1561467861433" duration="2045000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68213000" />
+    <option name="totallyTimeSpent" value="68866000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -957,8 +955,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/service/CustomerService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="37" column="60" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
+        <state relative-caret-position="136">
+          <caret line="29" column="60" lean-forward="true" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
